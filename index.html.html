@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Message Decryption</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; justify-content: center; height: 100vh; align-items: center; }
+        #box { border: 1px solid #0f0; padding: 40px; box-shadow: 0 0 15px #0f0; max-width: 80%; }
+        #text { font-size: 1.5rem; min-height: 1.5em; }
+        button { background: #0f0; color: black; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        button:hover { background: #008000; }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="text">01101111 01110101</div>
+        <button id="btn" onclick="startDecryption()">DECRYPT MESSAGE</button>
+    </div>
+
+    <script>
+        const finalMessage = "Will you be my Valentine, My Love?";
+        const chars = "01";
+        
+        function startDecryption() {
+            let iteration = 0;
+            const btn = document.getElementById('btn');
+            const textDisplay = document.getElementById('text');
+            btn.style.display = 'none';
+
+            const interval = setInterval(() => {
+                textDisplay.innerText = finalMessage
+                    .split("")
+                    .map((letter, index) => {
+                        if (index < iteration) return finalMessage[index];
+                        return chars[Math.floor(Math.random() * 2)];
+                    })
+                    .join("");
+
+                if (iteration >= finalMessage.length) {
+                    clearInterval(interval);
+                    textDisplay.style.color = "#ff4d6d";
+                    textDisplay.innerHTML += "<br><br><span style='font-size: 1rem;'>Sender: Dheeraj</span>";
+                }
+                iteration += 1 / 3;
+            }, 30);
+        }
+    </script>
+</body>
+</html>
