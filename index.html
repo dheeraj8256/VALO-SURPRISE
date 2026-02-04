@@ -1,47 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Secure Message Decryption</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Diagnostic - V3.1</title>
     <style>
-        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; justify-content: center; height: 100vh; align-items: center; }
-        #box { border: 1px solid #0f0; padding: 40px; box-shadow: 0 0 15px #0f0; max-width: 80%; }
-        #text { font-size: 1.5rem; min-height: 1.5em; }
-        button { background: #0f0; color: black; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-        button:hover { background: #008000; }
+        body { background: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        #console { width: 90%; max-width: 700px; background: rgba(0, 20, 0, 0.9); padding: 20px; border: 1px solid #00ff41; box-shadow: 0 0 20px #00ff41; }
+        .log { margin: 5px 0; font-size: 0.9rem; }
+        #start-btn { background: #00ff41; color: black; padding: 10px 20px; border: none; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        
+        #heart-monitor { display: none; text-align: center; color: #ff4d6d; }
+        .pulse { font-size: 4rem; animation: beat 0.8s infinite; }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        #proposal-zone { display: none; text-align: center; padding: 20px; background: #fff0f3; color: #ff4d6d; position: absolute; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; }
+        .btn-box { position: relative; width: 100%; height: 200px; margin-top: 20px; }
+        button { padding: 15px 30px; font-weight: bold; border-radius: 25px; border: none; cursor: pointer; }
+        #yesBtn { background: #ff4d6d; color: white; }
+        #noBtn { background: #ffb3c1; color: #590d22; position: absolute; transition: 0.2s ease; }
     </style>
 </head>
 <body>
-    <div id="box">
-        <div id="text">01101111 01110101</div>
-        <button id="btn" onclick="startDecryption()">DECRYPT MESSAGE</button>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="console">
+        <div id="logs">
+            <div class="log">> System Offline.</div>
+            <div class="log">> To run Diagnostic_Test_v3.1, please click below.</div>
+        </div>
+        <button id="start-btn" onclick="startSequence()">RUN DIAGNOSTIC</button>
+    </div>
+
+    <div id="heart-monitor">
+        <div class="pulse">❤️</div>
+        <h2>SENSORS DETECTED: UNUSUAL ADMIRATION</h2>
+        <p>Analyzing feelings for [Her Name]...</p>
+    </div>
+
+    <div id="proposal-zone">
+        <h1>Diagnostic Results: I'm in love! ❤️</h1>
+        <p>Will you be my Valentine?</p>
+        <div class="btn-box">
+            <button id="yesBtn" onclick="celebrate()">YES</button>
+            <button id="noBtn" onmouseover="moveBtn()" onclick="moveBtn()">NO</button>
+        </div>
     </div>
 
     <script>
-        const finalMessage = "Will you be my Valentine, My Love?";
-        const chars = "01";
-        
-        function startDecryption() {
-            let iteration = 0;
-            const btn = document.getElementById('btn');
-            const textDisplay = document.getElementById('text');
-            btn.style.display = 'none';
+        const bgMusic = document.getElementById('bgMusic');
+        const logs = [
+            "> Booting Relationship_OS_v3.0...",
+            "> Checking memory banks: Found 1,000+ shared moments.",
+            "> Scanning hardware: Arduino_Heart_Sensor connected.",
+            "> Audio driver initialized...",
+            "> Warning: CPU temperature rising near her...",
+            "> Running 'Will_You_Be_My_Valentine.exe'...",
+            "> SYSTEM OVERLOAD: Emotions exceeding capacity!"
+        ];
 
-            const interval = setInterval(() => {
-                textDisplay.innerText = finalMessage
-                    .split("")
-                    .map((letter, index) => {
-                        if (index < iteration) return finalMessage[index];
-                        return chars[Math.floor(Math.random() * 2)];
-                    })
-                    .join("");
+        function startSequence() {
+            document.getElementById('start-btn').style.display = 'none';
+            // Play music once user interacts
+            bgMusic.play();
+            showLogs();
+        }
 
-                if (iteration >= finalMessage.length) {
-                    clearInterval(interval);
-                    textDisplay.style.color = "#ff4d6d";
-                    textDisplay.innerHTML += "<br><br><span style='font-size: 1rem;'>Sender: Dheeraj</span>";
-                }
-                iteration += 1 / 3;
-            }, 30);
+        let logIndex = 0;
+        function showLogs() {
+            if (logIndex < logs.length) {
+                const div = document.createElement('div');
+                div.className = 'log';
+                div.innerText = logs[logIndex];
+                document.getElementById('logs').appendChild(div);
+                logIndex++;
+                setTimeout(showLogs, 1000);
+            } else {
+                setTimeout(startMonitor, 1000);
+            }
+        }
+
+        function startMonitor() {
+            document.getElementById('console').style.display = 'none';
+            document.getElementById('heart-monitor').style.display = 'block';
+            setTimeout(showProposal, 3000);
+        }
+
+        function showProposal() {
+            document.getElementById('heart-monitor').style.display = 'none';
+            document.getElementById('proposal-zone').style.display = 'flex';
+        }
+
+        function moveBtn() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.body.style.background = "#ff4d6d";
+            document.body.innerHTML = "<h1 style='color:white; text-align:center;'>Mission Accomplished! <br> I Love You! ❤️</h1>";
         }
     </script>
 </body>
